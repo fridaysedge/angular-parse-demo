@@ -22,4 +22,44 @@ angular.module('ToDoApp', [])
         //HTTP request we make in this application
         $httpProvider.defaults.headers.common['X-Parse-Application-Id'] = 'MUs8nrZr6aSPwky8pEDQsnK0qVjfN8z465LYENon';
         $httpProvider.defaults.headers.common['X-Parse-REST-API-Key'] = 'ALkSGeG7Xhs9JHLFnP9O3YXlY2qd9k7KKxYsX1Nq';
+    })
+    .controller('TasksController', function($scope, $http) {
+        $scope.refreshTasks = function(){
+            $scope.loading = true;
+            $http.get(tasksUrl + '?where={"done":false}')
+                .success(function(data){
+                    $scope.tasks = data.result;
+                })
+                .error(function(err){
+                    $scope.errorMessage = err;
+                })
+                .finally(function(){
+                    $scope.loading = false;
+                });
+        };
+        $scope.refreshTasks();
+
+        $scope.newTask = {done: false};
+
+        $scope.addTask = function(){
+            $http.post(tasksUrl, $scope.newTask)
+                .success(function(responseData){
+                    $scope.newTask.objectID = responseData.objectID;
+                    $scope.tasks.push($scope.newTask);
+                    $scope.newTask = {done: false};
+                })
+                .error(function(err){
+                    $scope.errorMessage = err;
+                });
+        };
+
+        $scope.updateTask = function(task){
+            $http.put(tasksUrl + '/' + task.objectID, task)
+                .success(function(){
+
+                })
+                .error(function(err){
+                    $scope.errorMessage = err;
+                });
+        };
     });

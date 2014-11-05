@@ -24,7 +24,7 @@ angular.module('GitHubApp', [])
                     //$scope.loading = false;
                 })
                 .finally(function(){
-                    $scioe.loading = false
+                    $scope.loading = false
                 });
         };
     });
