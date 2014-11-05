@@ -19,12 +19,18 @@
     <body>
         <main class="container-fluid" ng-app="GitHubApp" ng-controller="GitHubController">
             <h1>GitHub Repos</h1>
+            <p class="alert alert-danger" ng-if="errorMessage">{{errorMessage}}</p>
+
             <p>
                 <input type="text" class="form-control"
                        placeholder="enter your GitHub user name" ng-model="userName"/>
             </p>
 
-            <p><button class="btn btn-primary" ng-click="getRepos()">Get Repos</button></p>
+            <p><button class="btn btn-primary" ng-click="getRepos()">Get Repos</button>
+                <img src="img/ajax-loader.gif" alt="ajaz animation" ng-if="loading"/>
+            </p>
+
+
 
             <ul>
                 <li ng-repeat="repo in repos">

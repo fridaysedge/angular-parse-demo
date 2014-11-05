@@ -8,11 +8,23 @@
 
 
 angular.module('GitHubApp', [])
-    .controller('GitHubController', function($scope) {
-        $scope.userName = 'drstearns';
+    .controller('GitHubController', function($scope, $http) {
+        $scope.userName = 'fridaysedge';
         $scope.getRepos = function() {
-
-            //add code here
-
+            $scope.loading = true;
+            $http.get('https://api.github.com/users/' + $scope.userName + '/repos')
+                .success(function(data){
+                    $scope.repos = data;
+                    $scope.errorMessage = null;
+                    //$scope.loading = false;
+                })
+                .error(function(err) {
+                    //alert('User does not exist');
+                    $scope.errorMessage = err.message || "User does not exist";
+                    //$scope.loading = false;
+                })
+                .finally(function(){
+                    $scioe.loading = false
+                });
         };
     });
