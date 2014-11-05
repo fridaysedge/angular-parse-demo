@@ -28,7 +28,7 @@ angular.module('ToDoApp', [])
             $scope.loading = true;
             $http.get(tasksUrl + '?where={"done":false}')
                 .success(function(data){
-                    $scope.tasks = data.result;
+                    $scope.tasks = data.results;
                 })
                 .error(function(err){
                     $scope.errorMessage = err;
